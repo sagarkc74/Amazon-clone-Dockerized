@@ -25,11 +25,6 @@ pipeline {
                 sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
             }
         }
-        stage('Trivy Scan (Aqua)') {
-            steps {
-                sh 'trivy image $APP_NAME:$BUILD_NUMBER'
-            }
-       }
         stage('push image') {
             steps{
                 sh 'docker push $APP_NAME:$BUILD_NUMBER'
@@ -42,11 +37,3 @@ pipeline {
             } 
            } 
         }
-    post { 
-        always { 
-           //slackSend message: 'Pipeline completed - Build deployed successfully '
-           slackSend color: "good", message: "Build Deployed Successfully, Downstream Job Triggered"
-           }
-    }
-}
-
